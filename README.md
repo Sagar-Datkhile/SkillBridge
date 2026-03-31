@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" />
 <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase" />
@@ -321,4 +321,3 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 *AcadLedger — Where academic achievement meets industry opportunity.*
 
 </div>
-]]>
