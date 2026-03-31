@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import type React from "react";
-import { CobeGlobe } from "@/components/cobe-globe";
-import { TrendingUpIcon, SquareMousePointerIcon, GlobeIcon } from "lucide-react";
+import { TrendingUpIcon, SquareMousePointerIcon, GlobeIcon, FileEditIcon, BadgeCheckIcon, FileSearchIcon, BriefcaseIcon, SearchIcon, CodeIcon, MapPinIcon } from "lucide-react";
 
 const features = [
 	{
@@ -85,7 +84,7 @@ function SetupVisual() {
 		<>
 			<div className="relative mx-auto flex size-32 items-center justify-center rounded-full border-4 border-dashed bg-background shadow-xs outline outline-border outline-offset-4">
 				<div className="absolute inset-0 z-10 scale-120 bg-radial from-foreground/20 via-foreground/5 to-transparent blur-xl" />
-				<CustomTimerIcon className="size-14 fill-primary/90" />
+				<BadgeCheckIcon className="size-14 text-primary" />
 			</div>
 
 			<div className="relative mt-8 space-y-1.5 text-center">
@@ -102,7 +101,7 @@ function UserBasedSecurity() {
 	return (
 		<>
 			<div className="relative mx-auto flex size-32 items-center justify-center rounded-full border bg-background shadow-xs outline outline-border outline-offset-4">
-				<CustomLockIcon className="size-24" />
+				<FileSearchIcon className="size-14 text-primary" />
 				<div className="absolute inset-0 scale-120 bg-radial from-foreground/15 via-foreground/5 to-transparent blur-xl" />
 			</div>
 
@@ -143,7 +142,7 @@ function DashboardVisual() {
 		<div className="grid h-full sm:grid-cols-2">
 			<div className="relative z-10 space-y-6 py-8 ps-8 pe-2">
 				<div className="flex size-12 items-center justify-center rounded-full border bg-card shadow-xs outline outline-border/80 outline-offset-2">
-					<SquareMousePointerIcon className="size-5 text-primary/80" />
+					<FileEditIcon className="size-5 text-primary/80" />
 				</div>
 				<div className="space-y-2">
 					<FeatureTitle className="text-base">
@@ -181,8 +180,8 @@ function DashboardVisual() {
 
 function PresenceVisual() {
 	return (
-		<div className="grid max-h-120 sm:grid-cols-2">
-			<div className="space-y-6 pt-8 pb-4 pl-8 sm:pb-8">
+		<div className="grid h-full sm:grid-cols-2 overflow-hidden items-center">
+			<div className="relative z-10 space-y-6 py-8 ps-8 pe-4">
 				<div className="flex size-12 items-center justify-center rounded-full border bg-card shadow-xs outline outline-border/80 outline-offset-2">
 					<GlobeIcon className="size-5 text-primary/80" />
 				</div>
@@ -195,8 +194,39 @@ function PresenceVisual() {
 					</FeatureDescription>
 				</div>
 			</div>
-			<div className="relative">
-				<CobeGlobe className="-top-[12%] right-0 sm:absolute" />
+			{/* Animated Radar Visual */}
+			<div className="relative flex h-[250px] w-full items-center justify-center mask-b-from-50% sm:mask-b-from-90%">
+				{/* Sweeping Radar Beam */}
+				<div 
+					className="absolute size-[260px] rounded-full border-r-2 border-primary/50 opacity-40 animate-[spin_4s_linear_infinite]" 
+					style={{ clipPath: "polygon(50% 50%, 100% 0, 100% 50%)" }} 
+				/>
+				
+				{/* Radar Background Rings */}
+				<div className="absolute size-[260px] rounded-full border border-primary/10 bg-primary/5" />
+				<div className="absolute size-[180px] rounded-full border border-primary/20 bg-primary/5" />
+				<div className="absolute size-[100px] rounded-full border border-primary/30 bg-primary/5" />
+				
+				{/* Central Radar Node */}
+				<div className="absolute flex size-14 items-center justify-center rounded-full border border-primary bg-background shadow-[0_0_20px_rgba(var(--primary),0.3)] z-10">
+					<SearchIcon className="size-6 text-primary animate-pulse" />
+				</div>
+
+				{/* Floating Job Nodes */}
+				<div className="absolute -top-2 left-[-10px] sm:-top-4 sm:-left-6 flex items-center gap-2 rounded-full border bg-background/95 px-3 py-1.5 shadow-md backdrop-blur-md animate-[bounce_4s_ease-in-out_infinite] z-20">
+					<BriefcaseIcon className="size-3.5 text-blue-500" />
+					<span className="whitespace-nowrap text-[10px] font-medium sm:text-xs">SWE Intern @ Google</span>
+				</div>
+
+				<div className="absolute top-16 right-[-10px] sm:right-0 flex items-center gap-2 rounded-full border bg-background/95 px-3 py-1.5 shadow-md backdrop-blur-md animate-[bounce_5s_ease-in-out_infinite] [animation-delay:1.5s] z-20">
+					<CodeIcon className="size-3.5 text-emerald-500" />
+					<span className="whitespace-nowrap text-[10px] font-medium sm:text-xs">Frontend @ Vercel</span>
+				</div>
+
+				<div className="absolute bottom-6 left-[10px] sm:-left-2 flex items-center gap-2 rounded-full border bg-background/95 px-3 py-1.5 shadow-md backdrop-blur-md animate-[bounce_4.5s_ease-in-out_infinite] [animation-delay:2.5s] z-20">
+					<MapPinIcon className="size-3.5 text-amber-500" />
+					<span className="whitespace-nowrap text-[10px] font-medium sm:text-xs">Data Sci @ OpenAI</span>
+				</div>
 			</div>
 		</div>
 	);
