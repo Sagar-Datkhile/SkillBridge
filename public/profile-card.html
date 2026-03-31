@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillBridge — Career Profile Card</title>
+  <meta name="description" content="Shareable career profile card showcasing skills, achievements, and career summary." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Core palette */
+      --bg-body: #0b0d14;
+      --bg-card: #111420;
+      --bg-section: #161a28;
+      --bg-tag: #1c2235;
+      --bg-progress: #1c2235;
+
+      --border: #1e2538;
+      --border-accent: #2a3352;
+
+      /* Accent */
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-glow: rgba(108, 92, 231, 0.25);
+      --accent-gradient: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #74b9ff 100%);
+      --accent-gradient-warm: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+      --accent-gradient-cool: linear-gradient(135deg, #00cec9 0%, #6c5ce7 100%);
+      --accent-gradient-fire: linear-gradient(135deg, #e17055 0%, #fdcb6e 100%);
+
+      /* Text */
+      --text: #e8ecf4;
+      --text-secondary: #8892a8;
+      --text-muted: #5a6480;
+      --text-bright: #ffffff;
+
+      /* Status */
+      --green: #00b894;
+      --green-bg: rgba(0, 184, 148, 0.12);
+      --red: #ff6b6b;
+      --red-bg: rgba(255, 107, 107, 0.12);
+      --yellow: #fdcb6e;
+      --yellow-bg: rgba(253, 203, 110, 0.12);
+      --blue: #74b9ff;
+      --blue-bg: rgba(116, 185, 255, 0.12);
+
+      /* Spacing */
+      --card-padding: 32px;
+      --section-gap: 20px;
+      --border-radius: 16px;
+      --border-radius-sm: 10px;
+      --border-radius-xs: 6px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-body);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== CARD CONTAINER ===== */
+    .profile-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        0 0 80px var(--accent-glow);
+      animation: cardAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(24px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ===== HEADER ===== */
+    .card-header {
+      position: relative;
+      padding: var(--card-padding) var(--card-padding) 72px;
+      background: var(--accent-gradient);
+      overflow: hidden;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 72px;
+      background: linear-gradient(to top, var(--bg-card), transparent);
+      pointer-events: none;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .brand-icon {
+      width: 22px; height: 22px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .share-btn {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 6px 14px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
+      transition: all 0.2s;
+    }
+    .share-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-1px);
+    }
+
+    /* ===== AVATAR ROW ===== */
+    .avatar-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 0 var(--card-padding);
+      margin-top: -48px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .avatar {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      border: 4px solid var(--bg-card);
+      background: var(--accent-gradient);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: 2px; right: 2px;
+      width: 22px; height: 22px;
+      background: var(--green);
+      border: 3px solid var(--bg-card);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .user-info {
+      padding-bottom: 8px;
+      min-width: 0;
+    }
+
+    .user-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-bright);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-title {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .user-title .dot {
+      width: 4px; height: 4px;
+      background: var(--text-muted);
+      border-radius: 50%;
+    }
+
+    /* ===== CARD BODY ===== */
+    .card-body {
+      padding: 20px var(--card-padding) var(--card-padding);
+      display: flex;
+      flex-direction: column;
+      gap: var(--section-gap);
+    }
+
+    /* ===== HIGHLIGHT BADGES ===== */
+    .highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .highlight-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      animation: badgePop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+
+    @keyframes badgePop {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .highlight-badge.gold   { background: var(--yellow-bg); color: var(--yellow); border-color: rgba(253,203,110,0.2); }
+    .highlight-badge.green  { background: var(--green-bg);  color: var(--green);  border-color: rgba(0,184,148,0.2); }
+    .highlight-badge.blue   { background: var(--blue-bg);   color: var(--blue);   border-color: rgba(116,185,255,0.2); }
+    .highlight-badge.purple { background: rgba(108,92,231,0.12); color: var(--accent-light); border-color: rgba(108,92,231,0.2); }
+
+    /* ===== SECTION ===== */
+    .section {
+      background: var(--bg-section);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid var(--border);
+      padding: 16px;
+      transition: border-color 0.3s;
+    }
+    .section:hover {
+      border-color: var(--border-accent);
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title i {
+      width: 16px; height: 16px;
+      color: var(--accent-light);
+    }
+
+    /* ===== METRIC GRID ===== */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .metric-item {
+      text-align: center;
+      padding: 14px 8px;
+      background: var(--bg-tag);
+      border-radius: var(--border-radius-xs);
+      border: 1px solid var(--border);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .metric-item:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-accent);
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ===== PROGRESS BARS ===== */
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .progress-value {
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-light);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-progress);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent-gradient);
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 24px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2));
+      border-radius: 0 999px 999px 0;
+    }
+
+    .progress-fill.warm  { background: var(--accent-gradient-warm); }
+    .progress-fill.cool  { background: var(--accent-gradient-cool); }
+    .progress-fill.fire  { background: var(--accent-gradient-fire); }
+
+    /* ===== STRONGEST / WEAKEST ===== */
+    .subject-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .subject-card {
+      flex: 1;
+      padding: 12px;
+      border-radius: var(--border-radius-xs);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .subject-card.strong {
+      background: var(--green-bg);
+      border-color: rgba(0,184,148,0.2);
+    }
+
+    .subject-card.weak {
+      background: var(--red-bg);
+      border-color: rgba(255,107,107,0.2);
+    }
+
+    .subject-card .sc-icon {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .subject-card .sc-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+    }
+
+    .subject-card .sc-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .subject-card.strong .sc-name { color: var(--green); }
+    .subject-card.weak   .sc-name { color: var(--red); }
+
+    .subject-card .sc-score {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 4px;
+      color: var(--text-secondary);
+    }
+
+    /* ===== TAGS ===== */
+    .tag-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-tag);
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .tag:hover {
+      border-color: var(--accent);
+      background: rgba(108,92,231,0.08);
+      transform: translateY(-1px);
+    }
+
+    .tag .tag-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ===== CODING PLATFORMS ===== */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .platform-card {
+      padding: 14px;
+      background: var(--bg-tag);
+      border-radius: var(--border-radius-xs);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .platform-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-accent);
+    }
+
+    .platform-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .platform-name .p-icon {
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .platform-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .platform-stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .platform-stat .ps-label {
+      color: var(--text-muted);
+    }
+
+    .platform-stat .ps-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ===== PROJECTS ===== */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .project-item {
+      padding: 12px;
+      background: var(--bg-tag);
+      border-radius: var(--border-radius-xs);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .project-item:hover {
+      border-color: var(--border-accent);
+    }
+
+    .project-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-bright);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .project-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(108,92,231,0.1);
+      color: var(--accent-light);
+      border: 1px solid rgba(108,92,231,0.15);
+    }
+
+    /* ===== ATS INSIGHTS ===== */
+    .ats-score-ring {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .ring-container {
+      position: relative;
+      width: 64px; height: 64px;
+      flex-shrink: 0;
+    }
+
+    .ring-container svg {
+      width: 100%; height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--bg-progress);
+      stroke-width: 5;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: url(#ringGrad);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ring-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-bright);
+    }
+
+    .ats-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ats-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .ats-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .keyword-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .keyword {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: var(--bg-tag);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .keyword:hover {
+      color: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    /* ===== FOOTER ===== */
+    .card-footer {
+      padding: 16px var(--card-padding);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-link {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-light);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .footer-link:hover { color: var(--accent); }
+
+    /* ===== DOWNLOAD BAR ===== */
+    .download-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 520px;
+      animation: cardAppear 0.6s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .dl-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      background: var(--bg-section);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .dl-btn:hover {
+      border-color: var(--accent);
+      background: rgba(108,92,231,0.08);
+      transform: translateY(-1px);
+    }
+    .dl-btn.primary {
+      background: var(--accent-gradient);
+      border: none;
+      color: white;
+    }
+    .dl-btn.primary:hover {
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 560px) {
+      :root {
+        --card-padding: 20px;
+      }
+      .metric-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .platform-grid {
+        grid-template-columns: 1fr;
+      }
+      .avatar {
+        width: 72px; height: 72px;
+        font-size: 28px;
+      }
+      .avatar-row {
+        margin-top: -36px;
+      }
+      .card-header {
+        padding-bottom: 56px;
+      }
+      .user-name {
+        font-size: 17px;
+      }
+    }
+
+    /* ===== SHIMMER ANIMATION ===== */
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .shimmer-text {
+      background: linear-gradient(90deg, var(--text-bright) 0%, var(--accent-light) 50%, var(--text-bright) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    /* ===== TOOLTIP ===== */
+    .tooltip-wrapper {
+      position: relative;
+    }
+    .tooltip-wrapper::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      padding: 5px 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--text);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s;
+    }
+    .tooltip-wrapper:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="profile-card-root"></div>
+  <div id="download-bar-root"></div>
+
+  <!-- SVG defs for ring gradient -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#6c5ce7" />
+        <stop offset="50%"  stop-color="#a29bfe" />
+        <stop offset="100%" stop-color="#74b9ff" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <script>
+    // ================================================
+    // PROFILE DATA — replace this JSON to generate
+    // a different user's profile card
+    // ================================================
+    const profileData = {
+      user: {
+        name: "Pushkar Sharma",
+        title: "Full-Stack Developer",
+        location: "India",
+        avatarUrl: "",           // leave empty for initials fallback
+        initials: "PS",
+        profileUrl: "SkillBridge.in/pushkar"
+      },
+
+      highlights: [
+        { label: "Top 5% Scorer",    color: "gold",   icon: "trophy" },
+        { label: "Resume Pro",       color: "green",  icon: "file-check" },
+        { label: "50+ Problems",     color: "blue",   icon: "code" },
+        { label: "Full-Stack",       color: "purple", icon: "layers" }
+      ],
+
+      // Mock test performance
+      testPerformance: {
+        totalTests: 24,
+        averageScore: 82,
+        highestScore: 97,
+        subjects: [
+          { name: "Data Structures", score: 91, gradient: "default" },
+          { name: "System Design",   score: 78, gradient: "cool" },
+          { name: "Algorithms",      score: 85, gradient: "warm" },
+          { name: "Web Dev",         score: 88, gradient: "fire" },
+          { name: "DBMS",            score: 72, gradient: "default" }
+        ],
+        strongest: { name: "Data Structures", score: 91 },
+        weakest:   { name: "DBMS",             score: 72 }
+      },
+
+      // Skillset
+      skills: [
+        { name: "React",      color: "#61dafb" },
+        { name: "TypeScript",  color: "#3178c6" },
+        { name: "Next.js",     color: "#ffffff" },
+        { name: "Node.js",     color: "#68a063" },
+        { name: "Python",      color: "#ffd43b" },
+        { name: "PostgreSQL",  color: "#336791" },
+        { name: "Docker",      color: "#2496ed" },
+        { name: "AWS",         color: "#ff9900" },
+        { name: "GraphQL",     color: "#e535ab" },
+        { name: "Redis",       color: "#dc382d" }
+      ],
+
+      // Resume / ATS analysis
+      resumeInsights: {
+        atsScore: 87,
+        extractedSkills: ["React", "Node.js", "TypeScript", "PostgreSQL", "REST APIs", "CI/CD", "Git", "Agile"],
+        keywords: ["distributed systems", "microservices", "cloud native", "scalable", "performance", "full-stack", "API design", "team lead"]
+      },
+
+      // Tech stack
+      techStack: [
+        { name: "Frontend",  items: "React, Next.js, TypeScript" },
+        { name: "Backend",   items: "Node.js, Express, Python" },
+        { name: "Database",  items: "PostgreSQL, Supabase, Redis" },
+        { name: "DevOps",    items: "Docker, Vercel, GitHub Actions" }
+      ],
+
+      // Projects
+      projects: [
+        {
+          name: "SkillBridge",
+          description: "AI-powered career platform with resume analysis, mock tests, and recruiter matching.",
+          tags: ["Next.js", "Supabase", "AI"]
+        },
+        {
+          name: "CodeFlow",
+          description: "Real-time collaborative code editor with multi-language support and video chat.",
+          tags: ["WebRTC", "React", "Node.js"]
+        }
+      ],
+
+      // Coding platforms
+      codingPlatforms: [
+        {
+          name: "LeetCode",
+          color: "#ffa116",
+          stats: { solved: 187, contests: 12, rating: 1680 }
+        },
+        {
+          name: "CodeForces",
+          color: "#1f8acb",
+          stats: { solved: 94, contests: 8, rating: 1420 }
+        },
+        {
+          name: "HackerRank",
+          color: "#00ea64",
+          stats: { solved: 120, badges: 6, stars: 5 }
+        },
+        {
+          name: "GitHub",
+          color: "#f0f0f0",
+          stats: { repos: 32, contributions: 847, stars: 56 }
+        }
+      ]
+    };
+
+    // ================================================
+    // RENDER ENGINE
+    // ================================================
+
+    function renderCard(data) {
+      const d = data;
+      const circumference = 2 * Math.PI * 26;
+      const atsOffset = circumference - (circumference * d.resumeInsights.atsScore / 100);
+
+      const badgesHTML = d.highlights.map((b, i) =>
+        `<span class="highlight-badge ${b.color}" style="animation-delay:${i * 0.08}s">
+          <i data-lucide="${b.icon}" style="width:14px;height:14px"></i>
+          ${b.label}
+        </span>`
+      ).join('');
+
+      const metricsHTML = `
+        <div class="metric-item">
+          <div class="metric-value">${d.testPerformance.totalTests}</div>
+          <div class="metric-label">Tests Taken</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">${d.testPerformance.averageScore}%</div>
+          <div class="metric-label">Avg Score</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">${d.testPerformance.highestScore}%</div>
+          <div class="metric-label">Best Score</div>
+        </div>`;
+
+      const progressHTML = d.testPerformance.subjects.map(s => {
+        const cls = s.gradient !== 'default' ? s.gradient : '';
+        return `
+        <div class="progress-item">
+          <div class="progress-header">
+            <span class="progress-label">${s.name}</span>
+            <span class="progress-value">${s.score}%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill ${cls}" style="width:0%" data-target="${s.score}"></div>
+          </div>
+        </div>`;
+      }).join('');
+
+      const skillTagsHTML = d.skills.map(s =>
+        `<span class="tag">
+          <span class="tag-dot" style="background:${s.color}"></span>
+          ${s.name}
+        </span>`
+      ).join('');
+
+      const techStackHTML = d.techStack.map(t =>
+        `<div class="progress-item">
+          <div class="progress-header">
+            <span class="progress-label">${t.name}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">${t.items}</div>
+        </div>`
+      ).join('');
+
+      const platformHTML = d.codingPlatforms.map(p => {
+        const statsEntries = Object.entries(p.stats);
+        return `
+        <div class="platform-card">
+          <div class="platform-name">
+            <span class="p-icon" style="background:${p.color}">${p.name.charAt(0)}</span>
+            ${p.name}
+          </div>
+          <div class="platform-stats">
+            ${statsEntries.map(([k,v]) =>
+              `<div class="platform-stat">
+                <span class="ps-label">${k.charAt(0).toUpperCase() + k.slice(1)}</span>
+                <span class="ps-value">${typeof v === 'number' ? v.toLocaleString() : v}</span>
+              </div>`
+            ).join('')}
+          </div>
+        </div>`;
+      }).join('');
+
+      const projectsHTML = d.projects.map(p =>
+        `<div class="project-item">
+          <div class="project-title">
+            <i data-lucide="folder-git-2" style="width:16px;height:16px;color:var(--accent-light)"></i>
+            ${p.name}
+          </div>
+          <div class="project-desc">${p.description}</div>
+          <div class="project-tags">
+            ${p.tags.map(t => `<span class="project-tag">${t}</span>`).join('')}
+          </div>
+        </div>`
+      ).join('');
+
+      const resumeSkillsHTML = d.resumeInsights.extractedSkills.map(s =>
+        `<span class="tag"><i data-lucide="check-circle" style="width:12px;height:12px;color:var(--green)"></i>${s}</span>`
+      ).join('');
+
+      const keywordsHTML = d.resumeInsights.keywords.map(k =>
+        `<span class="keyword">#${k}</span>`
+      ).join('');
+
+      const avatarContent = d.user.avatarUrl
+        ? `<img src="${d.user.avatarUrl}" alt="${d.user.name}" />`
+        : d.user.initials;
+
+      return `
+      <div class="profile-card" id="profileCard">
+        <!-- HEADER -->
+        <div class="card-header">
+          <div class="header-top">
+            <div class="brand">
+              <span class="brand-icon"><i data-lucide="zap" style="width:14px;height:14px"></i></span>
+              SkillBridge
+            </div>
+            <button class="share-btn" onclick="shareCard()">
+              <i data-lucide="share-2" style="width:13px;height:13px"></i>
+              Share
+            </button>
+          </div>
+        </div>
+
+        <!-- AVATAR ROW -->
+        <div class="avatar-row">
+          <div class="avatar">
+            ${avatarContent}
+            <span class="avatar-badge">
+              <i data-lucide="check" style="width:10px;height:10px;color:white"></i>
+            </span>
+          </div>
+          <div class="user-info">
+            <div class="user-name shimmer-text">${d.user.name}</div>
+            <div class="user-title">
+              ${d.user.title}
+              <span class="dot"></span>
+              ${d.user.location}
+            </div>
+          </div>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body">
+
+          <!-- Highlights -->
+          <div class="highlights">${badgesHTML}</div>
+
+          <!-- Test Performance Metrics -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="bar-chart-3"></i>
+              Mock Test Performance
+            </div>
+            <div class="metric-grid">${metricsHTML}</div>
+          </div>
+
+          <!-- Subject Breakdown -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="target"></i>
+              Subject Scores
+            </div>
+            <div class="progress-list">${progressHTML}</div>
+          </div>
+
+          <!-- Strongest & Weakest -->
+          <div class="subject-row">
+            <div class="subject-card strong">
+              <div class="sc-icon">🏆</div>
+              <div class="sc-label">Strongest</div>
+              <div class="sc-name">${d.testPerformance.strongest.name}</div>
+              <div class="sc-score">${d.testPerformance.strongest.score}%</div>
+            </div>
+            <div class="subject-card weak">
+              <div class="sc-icon">📈</div>
+              <div class="sc-label">Needs Work</div>
+              <div class="sc-name">${d.testPerformance.weakest.name}</div>
+              <div class="sc-score">${d.testPerformance.weakest.score}%</div>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="cpu"></i>
+              Skillset
+            </div>
+            <div class="tag-wrap">${skillTagsHTML}</div>
+          </div>
+
+          <!-- Tech Stack -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="boxes"></i>
+              Tech Stack
+            </div>
+            <div class="progress-list">${techStackHTML}</div>
+          </div>
+
+          <!-- Coding Platforms -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="terminal"></i>
+              Coding Platforms
+            </div>
+            <div class="platform-grid">${platformHTML}</div>
+          </div>
+
+          <!-- Projects -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="rocket"></i>
+              Featured Projects
+            </div>
+            <div class="project-list">${projectsHTML}</div>
+          </div>
+
+          <!-- ATS / Resume Insights -->
+          <div class="section">
+            <div class="section-title">
+              <i data-lucide="scan-line"></i>
+              Resume & ATS Insights
+            </div>
+
+            <div class="ats-score-ring">
+              <div class="ring-container">
+                <svg viewBox="0 0 56 56">
+                  <circle class="ring-bg" cx="28" cy="28" r="26" />
+                  <circle class="ring-fill" cx="28" cy="28" r="26"
+                    stroke-dasharray="${circumference}"
+                    stroke-dashoffset="${circumference}"
+                    data-target-offset="${atsOffset}" />
+                </svg>
+                <div class="ring-text">${d.resumeInsights.atsScore}</div>
+              </div>
+              <div class="ats-details">
+                <div class="ats-label">ATS Compatibility Score</div>
+                <div class="ats-sub">Your resume is well-optimized for applicant tracking systems.</div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px">
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:8px">
+                Verified Skills
+              </div>
+              <div class="tag-wrap">${resumeSkillsHTML}</div>
+            </div>
+
+            <div style="margin-top:14px">
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:8px">
+                Extracted Keywords
+              </div>
+              <div class="keyword-list">${keywordsHTML}</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer">
+          <div class="footer-left">
+            <i data-lucide="sparkles" style="width:14px;height:14px;color:var(--accent-light)"></i>
+            Generated by SkillBridge
+          </div>
+          <a href="#" class="footer-link" onclick="return false">
+            ${d.user.profileUrl}
+            <i data-lucide="external-link" style="width:12px;height:12px"></i>
+          </a>
+        </div>
+      </div>`;
+    }
+
+    // ================================================
+    // INIT
+    // ================================================
+    document.getElementById('profile-card-root').innerHTML = renderCard(profileData);
+
+    // Download bar
+    document.getElementById('download-bar-root').innerHTML = `
+      <div class="download-bar">
+        <button class="dl-btn" onclick="copyLink()">
+          <i data-lucide="link" style="width:16px;height:16px"></i>
+          Copy Link
+        </button>
+        <button class="dl-btn primary" onclick="downloadCard()">
+          <i data-lucide="download" style="width:16px;height:16px"></i>
+          Download PNG
+        </button>
+      </div>`;
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Animate progress bars after render
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        document.querySelectorAll('.progress-fill[data-target]').forEach(bar => {
+          bar.style.width = bar.dataset.target + '%';
+        });
+        // Animate ATS ring
+        document.querySelectorAll('.ring-fill[data-target-offset]').forEach(ring => {
+          ring.style.strokeDashoffset = ring.dataset.targetOffset;
+        });
+      }, 300);
+    });
+
+    // ================================================
+    // SHARE & DOWNLOAD ACTIONS
+    // ================================================
+    function shareCard() {
+      if (navigator.share) {
+        navigator.share({
+          title: profileData.user.name + ' – Career Profile',
+          text: 'Check out my career profile on SkillBridge!',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        copyLink();
+      }
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const btn = document.querySelector('.dl-btn:first-child');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check" style="width:16px;height:16px"></i> Copied!';
+        lucide.createIcons();
+        setTimeout(() => { btn.innerHTML = original; lucide.createIcons(); }, 2000);
+      });
+    }
+
+    async function downloadCard() {
+      const btn = document.querySelector('.dl-btn.primary');
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="loader" style="width:16px;height:16px;animation:spin 1s linear infinite"></i> Generating…';
+      lucide.createIcons();
+
+      try {
+        // Use html2canvas if available, otherwise fallback
+        if (typeof html2canvas === 'undefined') {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          document.head.appendChild(script);
+          await new Promise(resolve => script.onload = resolve);
+        }
+
+        const card = document.getElementById('profileCard');
+        const canvas = await html2canvas(card, {
+          backgroundColor: '#0b0d14',
+          scale: 2,
+          useCORS: true,
+          logging: false
+        });
+
+        const link = document.createElement('a');
+        link.download = `${profileData.user.name.replace(/\s+/g, '_')}_profile.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (e) {
+        console.error('Download failed:', e);
+        alert('Screenshot failed. Try using your browser\'s screenshot tool.');
+      }
+
+      btn.innerHTML = original;
+      lucide.createIcons();
+    }
+
+    // Add spin animation for loader
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg) } }';
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

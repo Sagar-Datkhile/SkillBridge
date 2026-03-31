@@ -240,6 +240,21 @@ export function ResumeAnalyzerClient({ initialDescription = "" }: { initialDescr
 
       const analysis = await analyzeResumeAction(formData)
       setResult(analysis)
+
+      // Cache result for the Portfolio page to consume
+      try {
+        localStorage.setItem(
+          "skillbridge_resume_insights",
+          JSON.stringify({
+            atsScore: analysis.atsScore,
+            extractedSkills: analysis.keywordAnalysis.matched,
+            keywords: analysis.keywordAnalysis.missing.concat(analysis.keywordAnalysis.matched),
+            suggestions: analysis.improvements.slice(0, 3),
+            analyzedAt: new Date().toISOString(),
+          })
+        )
+      } catch { /* localStorage might be full — ignore */ }
+
       toast.success("Resume analysis complete!")
     } catch (err) {
       toast.error(
